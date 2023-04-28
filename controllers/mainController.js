@@ -23,11 +23,20 @@ const home = async ( req, res ) =>
 
 const getUser = async ( req, res ) =>
 {
-      const id = req.param.id;
+      const id = req.params.id;
       if ( !id ) return res.sendStatus( 400 ).json( { "message": "User id required" } )
       const user = await User.findOne( { _id: id } ).exec()
       if ( !user ) return res.sendStatus( 400 ).json( { "message": "User not found" } )
-      res.json(user)
+      const safe = {
+                  id: user._id,
+                  name: user.fullname,
+                  email: user.email,
+                  gender: user.gender,
+                  role: user.role,
+                  city: user.city,
+                  state: user.state,
+                  phoneNumber: user.phoneNumber}
+      res.json(safe)
 }
 
 

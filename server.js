@@ -12,10 +12,10 @@ const fileExtLimiter = require('./middleware/fileExtLimiter')
 const fileSizeLimiter = require( './middleware/fileSizeLimiter' )
 const fileUpload = require('express-fileupload')
 const mongoose = require( 'mongoose' )
-const connectDB = require('./config/dbConn')
+const connectDB = require( './config/dbConn' )
+
 
 const PORT = process.env.PORT || 3500;
-
 
 //connect to DB
 connectDB();
@@ -61,7 +61,8 @@ app.use( '/upload',
       fileSizeLimiter,
       require('./routes/upload')
 );
-app.use( '/conversation', require( './routes/conversation' ) )
+app.use( '/conversation', require( './routes/conversations' ) )
+app.use( '/message', require( './routes/messages' ) )
 
 app.use( errorHandler );
 
