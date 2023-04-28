@@ -2,6 +2,7 @@ require( 'dotenv' ).config();
 const express = require( 'express' );
 const cors = require( 'cors' );
 const app = express()
+const http = require('http')
 const { logger } = require( './middleware/logEvents' );
 const cookieParser = require('cookie-parser')
 const errorHandler = require( './middleware/errHandler' );
@@ -13,10 +14,64 @@ const fileSizeLimiter = require( './middleware/fileSizeLimiter' )
 const fileUpload = require('express-fileupload')
 const mongoose = require( 'mongoose' )
 const connectDB = require( './config/dbConn' )
-
-
+const {Server} = require('socket.io')
 const PORT = process.env.PORT || 3500;
 
+const httpServer = http.createServer( app )
+
+const io = new Server( httpServer, {
+      cors: {
+            origin: '*',
+            methods:["GET", "POST"]
+      }
+} )
+
+
+let users = []
+
+const addUser = ( userId, socketId ) =>
+{
+      !users.some( user => user.userId === userId ) && 
+            users.push({userId, socketId})
+}
+
+const removeUser = ( socketId ) =>
+{
+      users = users.filter(user => user.socketId !== socketId)
+}
+
+const getUser = ( userId ) =>
+{
+      return users.find(user=> user.userId === userId)
+}
+
+io.on( 'connection', ( socket ) =>
+{
+      // when connected
+      console.log( 'a user connected' )
+      socket.on( "addUser", userId =>
+      {
+            addUser( userId, socket.id );
+            io.emit( 'getUsers', users )
+      } )
+
+      //send and get message
+      socket.on( 'sendMessage', ( { senderId, receiverId, text } ) =>
+      {
+            const user = getUser( receiverId );
+            io.to( user.socketId ).emit( 'getMessage', {
+                  senderId, text
+            })
+      })
+
+      //when disconnected
+      socket.on( 'disconnet', () =>
+      {
+            console.log( 'a user disconnected' );
+            removeUser( socket.id )
+            io.emit( 'getUsers', users );
+      })
+} );
 //connect to DB
 connectDB();
 
@@ -69,5 +124,5 @@ app.use( errorHandler );
 mongoose.connection.once( 'open', () =>
 {
       console.log( 'connected to mongoDB' );
-      app.listen( PORT, () => console.log( `Server running on port ${ PORT }` ) );
+      httpServer.listen( PORT, () => console.log( `Server running on port ${ PORT }` ) );
 })
