@@ -21,7 +21,18 @@ const handleRefreshToken = async(req, res) =>
                         process.env.ACCESS_TOKEN_SECRET,
                         { expiresIn: '30s' }
                   );
-                  res.json({accessToken})
+                  const safe = {
+                        id: foundUser._id,
+                        name: foundUser.fullname,
+                        email: foundUser.email,
+                        gender: foundUser.gender,
+                        role: foundUser.role,
+                        city: foundUser.city,
+                        state: foundUser.state,
+                        phoneNumber: foundUser.phoneNumber,
+                        accessToken
+                  }
+                  res.json(safe)
             }
       )
 };
