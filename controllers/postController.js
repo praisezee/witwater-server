@@ -9,19 +9,17 @@ const getPost = async ( req, res ) =>
 
 const createPost = async ( req, res ) =>
 {
-      const { title, post, name, email } = req.body;
+      const { title, post, id } = req.body;
       if ( !title || !post ) return res.sendStatus( 400 ).json({'message': 'all feilds are required'});
       try {
-            const result = await Post.create({
-            "title": title,
-            "post": post,
-            "name": name,
-            "email": email,
-            "comment": []
+            const result = await Post.create( {
+                  "title": title,
+                  "post": post,
+                  "senderId": id,
+                  "comment": []
       });
 
-
-      res.sendStatus(201).json(result)
+      res.status(201).json(result)
       } catch (error) {
             console.error(error)
       }

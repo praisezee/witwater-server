@@ -12,5 +12,6 @@ router.route( '/' )
 
 router.route( '/:id' )
       .get( postController.getSinglePost )
-      .post(postController.postComment)
+      .post( postController.postComment )
+      
 module.exports = router;

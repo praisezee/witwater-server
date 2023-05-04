@@ -2,13 +2,9 @@ const mongoose = require( 'mongoose' );
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema( {
-      fullname: {
+      senderId: {
             type: String,
-            required: true
-      },
-      email: {
-            type: String,
-            required: true
+            require: true
       },
       title: {
             type: String,

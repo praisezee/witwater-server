@@ -103,11 +103,13 @@ app.get( '/', ( req, res, next ) =>
 app.use( '/register', require( './routes/register' ) );
 app.use( '/auth', require( './routes/auth' ) );
 app.use( '/refresh', require( './routes/refresh' ) );
-
-app.use(require('./middleware/verifyJwt'))
-
-app.use( '/user', require('./routes/main'));
+app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
+
+//app.use(require('./middleware/verifyJwt'))
+
+
+
 app.use( '/posts', require( './routes/post' ) );
 app.use( '/upload',
       fileUpload( { createParentPath: true } ),
