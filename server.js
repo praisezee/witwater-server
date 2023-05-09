@@ -19,13 +19,6 @@ const PORT = process.env.PORT || 3500;
 
 const httpServer = http.createServer( app )
 
-//cors
-
-app.use( credentials );
-app.options(cors(corsOptions))
-
-
-app.use( cors(corsOptions) );
 
 const io = new Server( httpServer, {
       cors: {
@@ -87,7 +80,13 @@ connectDB();
 //custom middleware
 app.use( logger );
 
+//cors
 
+app.use( credentials );
+app.options(cors(corsOptions))
+
+
+app.use( cors(corsOptions) );
 
 
 //built in middle where
