@@ -19,6 +19,14 @@ const PORT = process.env.PORT || 3500;
 
 const httpServer = http.createServer( app )
 
+//cors
+
+app.use( credentials );
+app.options(cors(corsOptions))
+
+
+app.use( cors(corsOptions) );
+
 const io = new Server( httpServer, {
       cors: {
             origin: '*',
@@ -59,6 +67,7 @@ io.on( 'connection', ( socket ) =>
       socket.on( 'sendMessage', ( { senderId, receiverId, text } ) =>
       {
             const user = getUser( receiverId );
+            console.log(user.socketId)
             io.to( user.socketId ).emit( 'getMessage', {
                   senderId, text
             })
@@ -78,11 +87,6 @@ connectDB();
 //custom middleware
 app.use( logger );
 
-app.use( credentials );
-app.options(cors(corsOptions))
-
-
-app.use( cors(corsOptions) );
 
 
 
