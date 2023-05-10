@@ -36,7 +36,7 @@ const handleRefreshToken = async(req, res) =>
                         phoneNumber: foundUser.phoneNumber,
                         accessToken
                   }
-                  res.json(safe)
+                  res.json({accessToken})
             }
       )
 };
