@@ -109,7 +109,8 @@ app.use( '/refresh', require( './routes/refresh' ) );
 app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
 
-//app.use(require('./middleware/verifyJwt'))
+
+app.use(require('./middleware/verifyJwt'))
 
 
 
