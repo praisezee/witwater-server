@@ -13,7 +13,7 @@ const verifyJwt = ( req, res, next ) =>
             ( err, decoded ) =>
             {
                   if ( err ) return res.sendStatus( 403 );// invalid token
-                  res.user = decoded.email || decoded.phoneNumber;
+                  res.user = decoded.email;
                   next()
             }
       )
