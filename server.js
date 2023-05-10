@@ -11,6 +11,7 @@ const credentials = require( './middleware/credentials' );
 const filePayloadExist = require('./middleware/filePayloadExist')
 const fileExtLimiter = require('./middleware/fileExtLimiter')
 const fileSizeLimiter = require( './middleware/fileSizeLimiter' )
+const verifyJwt = require('./middleware/verifyJwt')
 const fileUpload = require('express-fileupload')
 const mongoose = require( 'mongoose' )
 const connectDB = require( './config/dbConn' )
@@ -110,7 +111,7 @@ app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
 
 
-app.use(require('./middleware/verifyJwt'))
+app.use(verifyJwt)
 
 
 
