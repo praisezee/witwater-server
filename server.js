@@ -113,7 +113,7 @@ app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
 
 
-//app.use(verifyJwt)
+app.use(verifyJwt)
 
 
 

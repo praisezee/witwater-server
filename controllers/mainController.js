@@ -14,7 +14,8 @@ const home = async ( req, res ) =>
                   role: user.role,
                   city: user.city,
                   state: user.state,
-                  phoneNumber: user.phoneNumber
+                  phoneNumber: user.phoneNumber,
+                  src: user.src
             }
             return details
       })

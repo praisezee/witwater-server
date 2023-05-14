@@ -25,11 +25,12 @@ const handleLogin = async (req, res) =>
 
             // saving refresh token with current user
             foundUser.refreshToken = refreshToken
-            const source = foundUser.src !== '' ? `http://localhost:3500/${foundUser.src}`: '' 
+            const source = foundUser.src === '' ? "": `http://localhost:3500/${foundUser.src}`
             const user = {
                   "id" : foundUser._id,
                   "name": foundUser.fullname,
                   "email": foundUser.email,
+                  "gender" : foundUser.gender,
                   "phoneNumber": foundUser.phoneNumber,
                   "role": foundUser.role,
                   "state": foundUser.state,
