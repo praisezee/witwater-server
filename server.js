@@ -67,14 +67,13 @@ io.on( 'connection', ( socket ) =>
       socket.on( 'sendMessage', ( { senderId, receiverId, text } ) =>
       {
             const user = getUser( receiverId );
-            console.log(user.socketId)
             io.to( user.socketId ).emit( 'getMessage', {
                   senderId, text
             })
       })
 
       //when disconnected
-      socket.on( 'disconnet', () =>
+      socket.on( 'disconnetion', () =>
       {
             console.log( 'a user disconnected' );
             removeUser( socket.id )
@@ -113,11 +112,12 @@ app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
 
 
-app.use(verifyJwt)
+//app.use(verifyJwt)
 
 
 
 app.use( '/posts', require( './routes/post' ) );
+app.use('/userPost', require('./routes/userPost'))
 app.use( '/upload',
       fileUpload( { createParentPath: true } ),
       filePayloadExist,

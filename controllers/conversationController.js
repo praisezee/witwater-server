@@ -3,10 +3,15 @@ const Conversation = require('../model/Conversation')
 const newConversation = async ( req, res ) =>
 {
       const { senderId, receiverId } = req.body;
+      const duplicate = await Conversation.findOne( {
+                  members: {$in:[senderId, receiverId]}
+      } ).exec()
+      
+      if ( duplicate ) return res.sendStatus( 409 )
+      try {
       const newConversation = new Conversation( {
             members: [senderId,receiverId]
       } )
-      try {
             const savedConversation = await newConversation.save()
             res.status(200).json(savedConversation)
       } catch ( err ) {

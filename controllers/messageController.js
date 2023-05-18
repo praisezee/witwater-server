@@ -2,7 +2,6 @@ const Message = require( '../model/Message' );
 
 const addMessage = async ( req, res ) =>
 {
-      const newMessage = new Message( req.body );
       const { sender, text, conversationId } = req.body
       try {
             const newMessage = {conversationId, sender, text}

@@ -1,4 +1,7 @@
-const User = require('../model/Users')
+const User = require( '../model/Users' )
+const Post = require('../model/Post')
+const Conversation = require('../model/Conversation')
+const Message = require('../model/Message')
 
 const home = async ( req, res ) =>
 {
@@ -29,14 +32,15 @@ const getUser = async ( req, res ) =>
       const user = await User.findOne( { _id: id } ).exec()
       if ( !user ) return res.sendStatus( 400 ).json( { "message": "User not found" } )
       const safe = {
-                  id: user._id,
-                  name: user.fullname,
-                  email: user.email,
-                  gender: user.gender,
-                  role: user.role,
-                  city: user.city,
-                  state: user.state,
-                  phoneNumber: user.phoneNumber}
+            id: user._id,
+            name: user.fullname,
+            email: user.email,
+            gender: user.gender,
+            role: user.role,
+            city: user.city,
+            state: user.state,
+            src: user.src,
+            phoneNumber: user.phoneNumber}
       res.json(safe)
 }
 
@@ -45,8 +49,13 @@ const deleteUser = async ( req, res ) =>
       const { id } = req.params
       if ( !id ) return res.sendStatus( 400 ).json( { "message": "User id required" } )
       const user = await User.findOne( { _id: id } ).exec()
+      const conversation = await Conversation.find( {
+                  members: {$in:[id]}
+      } )
+      
       if ( !user ) return res.sendStatus( 400 ).json( { "message": "User not found" } )
       user.deleteOne()
+      conversation.deleteMany()
       res.sendStatus( 200 ).json( { 'message': 'account deleted' } )
       console.log(`user with id:${id} was deleted`)
 }
@@ -56,5 +65,5 @@ const deleteUser = async ( req, res ) =>
 module.exports = {
       home,
       getUser,
-      deleteUser
+      deleteUser,
 };

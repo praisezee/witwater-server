@@ -1,4 +1,5 @@
-const Post = require('../model/Post')
+const Post = require( '../model/Post' )
+const { v4: uuid } = require( 'uuid' );
 
 const getPost = async ( req, res ) =>
 {
@@ -49,29 +50,30 @@ const deletePost = async ( req, res ) =>
 
 const getSinglePost = async ( req, res ) =>
 {
-      const id = req.params.id;
+      const {id} = req.params;
       const post = await Post.findOne({_id : id}).exec()
-      if ( !post ) return res.sendStatus( 404 ).json( { 'message': `post with id ${ id } not found` } )
-
+      if ( !post ) return res.sendStatus( 400 ).json( { 'message': `post with id ${ id } not found` } )
       res.json(post)
 }
 
 
+
+
 const postComment = async ( req, res ) =>
 {
-      const {comment , name, email} = req.body
+      const {comment , senderId} = req.body
       const id = req.params.id;
       const post = await Post.findOne({_id : id}).exec()
       if ( !post ) return res.sendStatus( 404 ).json( { 'message': `post with id ${ id } not found` } )
 
       const comments = {
-            "name": name,
-            "email": email,
-            "comment": comment
+            id: uuid(),
+            senderId, 
+            comment
       }
 
       if ( !comments.comment ) res.sendStatus( 400 ).json( { 'message': " enter your comment" } )
-      post.comment = comments
+      post.comment.push = comments
       const result = await post.save()
       res.json(result)
 
