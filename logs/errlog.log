@@ -40,3 +40,6 @@
 20230422	17:07:56	a1b3b301-0ef1-44f7-bce4-866c6ce379ea	Error: Cannot set headers after they are sent to the client
 20230422	17:09:19	9c993fa5-2f2a-472b-a4ff-97e6cc96511f	Error: Cannot set headers after they are sent to the client
 20230422	17:09:21	bd3bf406-a85d-4059-bc96-20a35af14dd8	Error: Cannot set headers after they are sent to the client
+20230521	11:45:47	6fe37612-817a-446b-a3b6-47b8af2c6c5d	Error: Not allow by cors
+20230521	14:42:34	f8389336-9fc6-4ecf-b5a3-0bd13caf813d	PayloadTooLargeError: request entity too large
+20230521	14:43:02	767bd6ff-e4fa-4359-ad97-c1e135ef6409	PayloadTooLargeError: request entity too large

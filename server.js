@@ -73,7 +73,7 @@ io.on( 'connection', ( socket ) =>
       })
 
       //when disconnected
-      socket.on( 'disconnetion', () =>
+      socket.on( 'disconnet', () =>
       {
             console.log( 'a user disconnected' );
             removeUser( socket.id )
@@ -84,7 +84,7 @@ io.on( 'connection', ( socket ) =>
 connectDB();
 
 //custom middleware
-app.use( logger );
+//app.use( logger );
 
 
 
@@ -93,12 +93,12 @@ app.use( cors(corsOptions) );
 
 //built in middle where
 // middleware for encoded data like form data
-app.use( express.urlencoded( { extended: false } ) );
+app.use( express.urlencoded( { extended: true, limit: '200mb' } ) );
 // middleware for json file
-app.use( express.json() );
+app.use( express.json({limit:'200mb'}) );
 // middle ware for cookies
 app.use( cookieParser() )
-app.use('/uploads', express.static('image'))
+app.use('/upload', express.static('image'))
 
 app.get( '/', ( req, res, next ) =>
 {
@@ -110,6 +110,8 @@ app.use( '/auth', require( './routes/auth' ) );
 app.use( '/refresh', require( './routes/refresh' ) );
 app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
+app.use('/verify-mail', require('./routes/VerifyMail'))
+app.use('/verify-code', require('./routes/VerifyCode'))
 
 
 //app.use(verifyJwt)
@@ -117,14 +119,17 @@ app.use( '/logout', require( './routes/logout' ) );
 
 
 app.use( '/posts', require( './routes/post' ) );
+app.use('/comment', require('./routes/comment'))
 app.use('/userPost', require('./routes/userPost'))
-app.use( '/upload',
+/* app.use( '/upload',
       fileUpload( { createParentPath: true } ),
       filePayloadExist,
       fileExtLimiter( [ '.png', '.jpg', '.jepg' ] ),
       fileSizeLimiter,
       require('./routes/upload')
-);
+); */
+app.use( '/upload', require('./routes/upload'))
+
 app.use( '/conversation', require( './routes/conversations' ) )
 app.use( '/message', require( './routes/messages' ) )
 

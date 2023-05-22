@@ -13,8 +13,7 @@ const postSchema = new Schema( {
       post: {
             type: String,
             required: true
-      },
-      comment: Array
+      }
 } );
 
 module.exports = mongoose.model('Post', postSchema)

@@ -8,10 +8,9 @@ router.route( '/' )
       .get(postController.getPost)
       .post( postController.createPost )
       .patch( postController.editPost )
-      .delete(postController.deletePost)
+      
 
 router.route( '/:id' )
       .get( postController.getSinglePost )
-      .post( postController.postComment )
-      
+      .delete(postController.deletePost)
 module.exports = router;

@@ -34,9 +34,10 @@ const handleRefreshToken = async(req, res) =>
                         city: foundUser.city,
                         state: foundUser.state,
                         phoneNumber: foundUser.phoneNumber,
+                        src: foundUser.src,
                         accessToken
                   }
-                  res.json({accessToken})
+                  res.json(safe)
             }
       )
 };

@@ -1,7 +1,8 @@
 const User = require( '../model/Users' )
 const Post = require('../model/Post')
 const Conversation = require('../model/Conversation')
-const Message = require('../model/Message')
+const Message = require( '../model/Message' )
+const jwt = require( 'jsonwebtoken' )
 
 const home = async ( req, res ) =>
 {
@@ -44,19 +45,53 @@ const getUser = async ( req, res ) =>
       res.json(safe)
 }
 
+const editUser = async (req,res) =>
+{
+      const {id, name, email, gender, role, city, state, phoneNumber } = req.body;
+      const foundUser = await User.findOne( { _id: id } )
+      if ( !foundUser ) res.status( 401 ).json( { 'message': 'user not found' } )
+      foundUser.fullname = name
+      foundUser.email = email
+      foundUser.gender = gender
+      foundUser.role = role
+      foundUser.city = city
+      foundUser.phoneNumber = phoneNumber
+      foundUser.state = state
+
+      await foundUser.save()
+      const accessToken = jwt.sign(
+                  { "email": foundUser.email },
+                  process.env.ACCESS_TOKEN_SECRET,
+                  { expiresIn: '10s' }
+            );
+      const result = {
+                  "id" : foundUser._id,
+                  "name": foundUser.fullname,
+                  "email": foundUser.email,
+                  "gender" : foundUser.gender,
+                  "phoneNumber": foundUser.phoneNumber,
+                  "role": foundUser.role,
+                  "state": foundUser.state,
+                  "city": foundUser.city,
+                  "accessToken": accessToken,
+                  "src": foundUser.src
+            }
+      res.json(result)
+
+}
+
 const deleteUser = async ( req, res ) =>
 {
       const { id } = req.params
       if ( !id ) return res.sendStatus( 400 ).json( { "message": "User id required" } )
-      const user = await User.findOne( { _id: id } ).exec()
-      const conversation = await Conversation.find( {
+      await User.deleteOne( { _id: id } ).exec()
+      await Conversation.deleteMany( {
                   members: {$in:[id]}
-      } )
-      
-      if ( !user ) return res.sendStatus( 400 ).json( { "message": "User not found" } )
-      user.deleteOne()
-      conversation.deleteMany()
-      res.sendStatus( 200 ).json( { 'message': 'account deleted' } )
+      } ).exec()
+      await Post.deleteMany( {
+            senderId: id
+      } ).exec()
+      res.sendStatus( 200 )
       console.log(`user with id:${id} was deleted`)
 }
 
@@ -66,4 +101,5 @@ module.exports = {
       home,
       getUser,
       deleteUser,
+      editUser
 };

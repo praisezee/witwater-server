@@ -4,18 +4,17 @@ const newConversation = async ( req, res ) =>
 {
       const { senderId, receiverId } = req.body;
       const duplicate = await Conversation.findOne( {
-                  members: {$in:[senderId, receiverId]}
-      } ).exec()
-      
-      if ( duplicate ) return res.sendStatus( 409 )
-      try {
+            members : {$all: [senderId, receiverId]}
+      } )
+      if (duplicate) return res.sendStatus(409) //conflict
       const newConversation = new Conversation( {
             members: [senderId,receiverId]
       } )
+      try {
             const savedConversation = await newConversation.save()
-            res.status(200).json(savedConversation)
+            res.sendStatus(200).json(savedConversation)
       } catch ( err ) {
-            res.status(500).json(err)
+            res.status(500)
       }
 };
 
@@ -29,7 +28,7 @@ const getConversation = async ( req, res ) =>
             } )
             res.status(200).json(conversation)
       }catch ( err ) {
-            res.status(500).json(err)
+            res.status(500)
       }
 }
 

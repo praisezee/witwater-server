@@ -1,25 +1,29 @@
-const path = require( 'path' )
-const User = require('../model/Users')
+const User = require( '../model/Users' )
+const cloudinary = require('../config/cloudinary')
 
 const uploadImg = async ( req, res ) =>
 { 
-      const id = req.body;
-      const files = req.files;
+
+      const { profile, id } = req.body;
+      
+      if (!profile || !id) {
+            return res.status(400).json({ error: 'Image file and ID are required.' });
+      }
+      try {
+            const result = await cloudinary.uploader.upload( profile, {
+                  folder: 'profiles',
+                  width: 300
+            })
       const foundUser = await User.findOne( { _id: id } ).exec()
       if ( !foundUser ) return res.sendStatus( 401 );
-      console.log( files );
-      Object.keys( files ).forEach( key =>
-      {
-            const filepath = path.join( __dirname, 'image', files[ key ].name )
-            files[ key ].mv( filepath, ( err ) =>
-            {
-                  if (err) return res.status(500).json({status: 'error', message: err})
-            } )
-            foundUser.src = filepath
-            
-      } )
+      console.log( profile )
+            foundUser.src = result.secure_url
       await foundUser.save()
-      return res.json({status: 'success', message: Object.keys(files).toString()})
+      const imgageUrl = foundUser.src
+      return res.status(200).json({imgageUrl})
+      } catch (err) {
+            console.log(err)
+      }
 };
 
 module.exports = uploadImg

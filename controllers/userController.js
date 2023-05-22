@@ -25,7 +25,10 @@ const createNewUser = async ( req, res ) =>
                   "city": city,
                   "email": email,
                   "phoneNumber": phoneNumber,
-                  "password": hashedPwd
+                  "password": hashedPwd,
+                  "src": '',
+                  'isVerifired': false,
+                  'verifyCode':''
             });
             console.log(result);
             res.status( 201 ).json( { 'success': `New user ${ name } created` } );

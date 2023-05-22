@@ -34,6 +34,13 @@ const userSchema = new Schema( {
             type: String,
             required: true
       },
+      isVerifired: {
+            type: Boolean,
+            default : false
+      },
+      verifyCode: {
+            type: String
+      },
       refreshToken: String,
       src: String
 } );
