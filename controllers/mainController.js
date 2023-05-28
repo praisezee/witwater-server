@@ -19,7 +19,8 @@ const home = async ( req, res ) =>
                   city: user.city,
                   state: user.state,
                   phoneNumber: user.phoneNumber,
-                  src: user.src
+                  src: user.src,
+                  isVerified: user.isVerifired
             }
             return details
       })

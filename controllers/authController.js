@@ -36,7 +36,8 @@ const handleLogin = async (req, res) =>
                   "state": foundUser.state,
                   "city": foundUser.city,
                   "accessToken": accessToken,
-                  "src": source
+                  "src": source,
+                  "isVerified": foundUser.isVerifired
             }
             await foundUser.save();
 

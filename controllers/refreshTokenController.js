@@ -35,7 +35,8 @@ const handleRefreshToken = async(req, res) =>
                         state: foundUser.state,
                         phoneNumber: foundUser.phoneNumber,
                         src: foundUser.src,
-                        accessToken
+                        accessToken,
+                        isVerified: foundUser.isVerifired
                   }
                   res.json(safe)
             }
