@@ -29,7 +29,8 @@ const verifyEmail = async ( req, res ) =>
 
             await transporter.sendMail( mailOption )
             
-            await user.updateOne({email}, {$set:{verifyCode:code}})
+            user.verifyCode = code;
+            await user.save()
 
       res.status(201).json({'message': 'verification code sent to email'})
       } catch (err) {

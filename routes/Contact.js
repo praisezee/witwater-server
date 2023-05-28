@@ -20,8 +20,11 @@ router.post( '/', async ( req, res ) =>
             }
       } )
       const html = `
-      <p>${ firstname } ${surname} with an email of ${ email } and a phone number of ${phoneNumber} has reached out to us. Here is the message</p>
-      <p>${message}</p>
+      <p>Someone reached out to witwater</p>
+      <h4>Name: ${firstname} ${surname}</h4>
+      <h4>Phone number: ${phoneNumber} </h4>
+      <h4>Email: ${email} </h4>
+      <h6>${message}</h6>
       `
             
             await transporter.sendMail( {
