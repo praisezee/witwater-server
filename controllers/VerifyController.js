@@ -12,10 +12,13 @@ const verifyEmail = async ( req, res ) =>
             //nodemailer transporter
             const transporter = nodeMailer.createTransport( {
                   service: 'gmail',
-                  auth: {
-                        user:process.env.EMAIL,
-                        pass:process.env.PASS
-                  }
+            auth: {
+                  user: 'folorunsopraise580@gmail.com',
+                  pass:'lbimoesmecpqtwkb'
+            },
+            tls: {
+                  rejectUnauthorized:false
+            }
             } )
             const mailOption = {
                   from:process.env.EMAIL,

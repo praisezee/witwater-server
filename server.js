@@ -106,6 +106,7 @@ app.get( '/', ( req, res, next ) =>
       next();
 } );
 app.use( '/register', require( './routes/register' ) );
+app.use('/contact', require('./routes/Contact'))
 app.use( '/auth', require( './routes/auth' ) );
 app.use( '/refresh', require( './routes/refresh' ) );
 app.use( '/user', require( './routes/main' ) );
