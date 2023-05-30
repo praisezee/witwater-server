@@ -23,7 +23,7 @@ const getComment = async ( req, res ) =>
       if(!id) return res.status(400)
       const comment = await Comment.find( {
             postId : id
-      } ).exec()
+      } ).sort({_id:-1}).exec()
       res.json(comment)
 };
 
