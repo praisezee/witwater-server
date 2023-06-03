@@ -112,7 +112,8 @@ app.use( '/refresh', require( './routes/refresh' ) );
 app.use( '/user', require( './routes/main' ) );
 app.use( '/logout', require( './routes/logout' ) );
 app.use('/verify-mail', require('./routes/VerifyMail'))
-app.use('/verify-code', require('./routes/VerifyCode'))
+app.use( '/verify-code', require( './routes/VerifyCode' ) )
+app.use('/subscription', require('./routes/createSubscription'))
 
 
 //app.use(verifyJwt)
