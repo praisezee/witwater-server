@@ -12,7 +12,11 @@ const uploadImg = async ( req, res ) =>
       try {
             const result = await cloudinary.uploader.upload( profile, {
                   folder: 'profiles',
-                  width: 300
+                  eager: {
+                        width: 200,
+                        height: 200,
+                        crop:"scale"
+                  }
             })
       const foundUser = await User.findOne( { _id: id } ).exec()
       if ( !foundUser ) return res.sendStatus( 401 );
