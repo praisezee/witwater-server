@@ -15,7 +15,8 @@ const verifyJwt = require('./middleware/verifyJwt')
 const fileUpload = require('express-fileupload')
 const mongoose = require( 'mongoose' )
 const connectDB = require( './config/dbConn' )
-const {Server} = require('socket.io')
+const {Server} = require('socket.io');
+const allowedOrigins = require( './config/allowedOrigins' );
 const PORT = process.env.PORT || 3500;
 
 const httpServer = http.createServer( app )
@@ -24,13 +25,13 @@ const httpServer = http.createServer( app )
 //cors
 
 app.use( credentials );
-app.options(cors(corsOptions))
-
+app.options( cors( corsOptions ) )
+app.use( cors(corsOptions) );
 
 const io = new Server( httpServer, {
       cors: {
-            origin: '*',
-            methods:["GET", "POST"]
+            origin: allowedOrigins,
+            methods:['GET','POST','PATCH','DELETE']
       }
 } )
 
@@ -88,7 +89,6 @@ connectDB();
 
 
 
-app.use( cors(corsOptions) );
 
 
 //built in middle where
