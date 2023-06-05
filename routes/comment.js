@@ -1,5 +1,5 @@
 const express = require( 'express' );
-const { getComment, postComment, getSingleComment, deleteComment } = require( '../controllers/commentController' );
+const { getComment, postComment, deleteComment } = require( '../controllers/commentController' );
 const router = express.Router();
 
 router.route( '/' )

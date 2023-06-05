@@ -35,13 +35,6 @@ const deleteComment = async (req,res) =>
       res.status(200).json(comment)
 };
 
-const getSingleComment = async ( req, res ) =>
-{
-      const { id } = req.params
-      const comment = await Comment.findOne( { _id: id } ).exec()
-      if ( !comment ) res.status( 400 ).json( { "message": "comment Not found" } )
-      res.status(200).json(comment)
-};
 
 
 module.exports = {

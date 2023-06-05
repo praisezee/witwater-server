@@ -5,7 +5,7 @@ const newConversation = async ( req, res ) =>
       const { senderId, receiverId } = req.body;
       const duplicate = await Conversation.findOne( {
             members : {$all: [senderId, receiverId]}
-      } )
+      } ).exec()
       if (duplicate) return res.sendStatus(409) //conflict
       const newConversation = new Conversation( {
             members: [senderId,receiverId]
